@@ -1,10 +1,11 @@
 import Image
-from readTargetFile.py import *
+#from readTargetFile.py import *
 
 def initializeImage():
 	imageName = raw_input("Please enter image file name: ")
 	img = Image.open(imageName)
-	imageFile = img.load()
+	#imageFile = img.load()
+	imageFile = list(img.getdata())
 	imageSize = img.size
 	imageList = []
 	imageList.append(imageName)
@@ -21,41 +22,50 @@ def canHideImage(imageList, fileList):
 
 def createRGBList(imageList):
 	RGBtupleList = []
-	for i in range(0, imageList[1][0]):
-		for j in range(0, imageList[1][1]):
-			RGBtupleList.append(imageList[2][i][j])
+	for i in range(0, imageList[1][0]-1):
+		for j in range(0, imageList[1][1]-1):
+			#tuple = (i, j)
+			print i, j
+			tmp = imageList[2]
+			RGBtupleList.append(tmp[i][j])
 	return RGBtupleList
 
 def clearLowestBits(RGBtupleList):
 	clearedList = []
 	for i in range(len(RGBtupleList)):
-		tempTuple = (0,0,0)
+		tempList = []
 		for j in range(3):
-			temp = "{0:08b}".format(RGBtupleList[i][j])
-			tempCleared = temp & 11111100
-			tempTuple[j] = tempCleared
-		clearedList.append(tempTuple)
+			#temp = "{0:08b}".format(RGBtupleList[i][j])
+			temp = RGBtupleList[i][j]
+			tempCleared = temp & 0b11111100
+			#tempClearedNo0b = "{0:08b}".format(tempCleared)
+			tempList.append(tempCleared)
+			#tempTuple[j] = tempCleared
+		clearedList.append(tuple(tempList))
 	return clearedList
 
 def putDataInImage(RGBlist, fileList, imageList):
 	modifiedImageTupleList = []
 	
 	imageSize = imageList[1] #this is a tuple
-	2bitChunkListLength = len(fileList[2])
+	dataList = fileList[2]
+	dataListLen = len(dataList)
 	formatBinary = fileList[0]		
 	lengthBinary = fileList[1]
 	dataBinary = fileList[2]
 	
-	if (len(formatBinary) + len(lengthBinary) + 2bitChunkListLength) > 6*len(RGBlist):
+	if (len(formatBinary) + len(lengthBinary) + dataListLen) > 6*len(RGBlist):
 		print "Too much data. Try larger image."
 
 	pixelCounter = 0
-	
-	index = 0
+	print formatBinary
+	index = 1
 	while index < len(formatBinary):
 		tempTuple = (0, 0, 0)
 		for j in range(3):
-			temp = RGBlist[pixelCounter][j] | "{0:0>8}".format(formatBinary[index])
+			#print formatBinary[index]
+			print RGBlist[pixelCounter][j]
+			temp = RGBlist[pixelCounter][j] | "{0:08b}".format(formatBinary[index])
 			tempTuple[j] = temp
 			index += 1
 		modifiedImageTupleList.append(tempTuple)			
@@ -67,7 +77,7 @@ def putDataInImage(RGBlist, fileList, imageList):
 	while index2 < len(lengthBinary):
 		tempTuple = (0, 0, 0)
 		for j in range(3):
-			temp = RGBlist[pixelCounter][j] | "{0:0>8}".format(lengthBinary[index2])
+			temp = RGBlist[pixelCounter][j] | "{0:08b}".format(lengthBinary[index2])
 			tempTuple[j] = temp
 			index2 += 1
 		modifiedImageTupleList.append(tempTuple)
@@ -76,16 +86,24 @@ def putDataInImage(RGBlist, fileList, imageList):
 	lengthEndLocation = pixelCounter
 
 	index3 = 0
-	while index3 < 2bitChunkListLength:
+	while index3 < dataListLen:
 		tempTuple = (0, 0, 0)
 		for j in range(3):
-			temp = RGBlist[pixelCounter][j] | "{0:0>8}".format(dataBinary[index3])
+			temp = RGBlist[pixelCounter][j] | "{0:08b}".format(dataBinary[index3])
 			tempTuple[j] = temp
 			index3 += 1
 		modifiedImageTupleList.append(tempTuple)
 		pixelCounter += 1
 
 	dataEndLocation = pixelCounter
+	
+        locationAndDataList = []
+	locationAndDataList.append(formatEndLocation)
+	locationAndDataList.append(lengthEndLocation)
+	locationAndDataList.append(dataEndLocation)
+	locationAndDataList.append(modifiedImageTupleList)
+
+	return locationAndDataList
 	
 def createModifiedImage(tupleList, imageSize):
 	modifiedImage = Image.new(RGB, imageSize)
