@@ -18,10 +18,17 @@ fileLength = len(fileData)
 # New list to store format, length, and data
 fileList = []
 
+def stringToBin(string):
+	return bin(int(binascii.hexlify(string), 16))
+
+def BinToString(binaryString):
+	return binascii.unhexlify('%x' % binaryString)
+
 def constructFileList(fileName):
 	
-	binaryEncryptedData = bin(int(binascii.hexlify(encryptedData), 16))
-	print binaryEncryptedData
+	binaryEncryptedData = stringToBin(encryptedData)
+	binaryFileFormat = stringToBin(fileFormat)
+	
 	dataLength = len(binaryEncryptedData)
 	
 	splitList = []
@@ -33,5 +40,3 @@ def constructFileList(fileName):
 	fileList.append(splitList) # fileList[2] gives data (string)
 	
 	return fileList
-
-print constructFileList(fileName)
