@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>HSAT by stuffandthings</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>HSAT</h1>
+        <h2>Hide Stuff And Things, steganography implementation in Python</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/stuffandthings/HSAT/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/stuffandthings/HSAT/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/stuffandthings/HSAT" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <p>Hide Stuff And Things (HSAT for short) is a Steganography tool implemented in Python 2.7.6.</p>
+
+<p>What is Steganography? </p>
+
+<p>From the Wikipedia page, Steganography "is the art or practice of concealing a message, image, or file within another message, image, or file." Steganography has a pretty cool history. Read more about it here: <a href="http://en.wikipedia.org/wiki/Steganography">http://en.wikipedia.org/wiki/Steganography</a></p>
+
+<p>What are the capabilities of this tool?</p>
+
+<p>HSAT is currently capable of hiding a string message in an image and also retrieving this message, given the modified image.
+The goal is to allow the user to take any image and any file, and be able to hide the file inside the image. The method splits up binary data and hides it in the least significant bits of each color value in each pixel of the image.</p>
+
+<p>What are the limitations of this tool?</p>
+
+<p>The current implementation only allows for a text secret message to be hidden inside the image. There are complications with handling different file formats (e.g. troublesome to get a pdf file split into binary, hidden inside the image, and be able to extract the data from the image and convert it back into a pdf file)</p>
+
+<p>What features still need to be implemented?</p>
+
+<ul>
+<li>Store a sort of file signature header in the first row of the image that includes information of the filetype etc.</li>
+<li>Add the ability of encrypt the data before embeddeding it in the image. (and ofcourse... the ability to decrypt the message)</li>
+<li>GUI</li>
+<li>Better algorithms can surely be implemented (i.e. data gets embedded in sequential order, creating a very distinct pattern that is visible in the image, making it more obvious that there is a message hidden inside the image)</li>
+</ul><p>Feel free to use/reuse my code.</p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
