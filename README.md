@@ -1,12 +1,3 @@
-       __  _______ ___  ______                                         
-      / / / / ___//   |/_  __/                                         
-     / /_/ /\__ \/ /| | / /                                            
-    / __  /___/ / ___ |/ /                                             
-   /_/ /_//____/_/  |_/_/                                              
-
-   Hide Stuff And Things    
-
-
 Hide Stuff And Things (HSAT for short) is a Steganography tool implemented in Python 2.7.6.
 
 What is Steganography?
